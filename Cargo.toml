@@ -1,0 +1,75 @@
+[package]
+name = "ks-sniff"
+version = "0.1.0"
+edition = "2021"
+authors = ["KS-Sniff Contributors"]
+description = "A Rust-based multithreaded intrusion detection system inspired by Snort"
+license = "MIT"
+repository = "https://github.com/yourusername/ks-sniff"
+
+[dependencies]
+# Packet capture
+pcap = "1.1"
+
+# Async/Threading
+crossbeam = "0.8"
+rayon = "1.8"
+parking_lot = "0.12"
+
+# Parsing
+nom = "7.1"
+regex = "1.10"
+aho-corasick = "1.1"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_yaml = "0.9"
+toml = "0.8"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+syslog = "6.1"
+
+# Network
+pnet = "0.34"
+etherparse = "0.14"
+
+# Error handling
+thiserror = "1.0"
+anyhow = "1.0"
+
+# CLI
+clap = { version = "4.4", features = ["derive"] }
+
+# Time
+chrono = "0.4"
+
+# Performance
+ahash = "0.8"
+smallvec = "1.11"
+
+# Signal handling
+ctrlc = "3.4"
+
+# Networking utilities
+ipnetwork = "0.20"
+
+# System utilities
+num_cpus = "1.16"
+
+[dev-dependencies]
+criterion = "0.5"
+proptest = "1.4"
+tempfile = "3.8"
+
+[[bin]]
+name = "ks-sniff"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true

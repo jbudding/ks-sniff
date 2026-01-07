@@ -1,0 +1,30 @@
+# Rust
+/target/
+Cargo.lock
+**/*.rs.bk
+*.pdb
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+/var/log/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Config overrides
+/config/local.yaml
+
+# PCAP files
+*.pcap
+*.pcapng
+
+# Test data
+/test_captures/

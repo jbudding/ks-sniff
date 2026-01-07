@@ -1,0 +1,30 @@
+# KS-Sniff Local Rules
+# Example Snort-compatible rules for testing
+
+# HTTP Detection Rules
+alert tcp $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"HTTP GET Request Detected"; content:"GET"; http_method; sid:1000001; rev:1;)
+alert tcp $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"HTTP POST Request Detected"; content:"POST"; http_method; sid:1000002; rev:1;)
+
+# Suspicious Activity
+alert tcp any any -> any any (msg:"Potential SQL Injection Attempt"; content:"SELECT"; nocase; content:"FROM"; nocase; distance:0; sid:1000003; rev:1;)
+alert tcp any any -> any any (msg:"Potential XSS Attempt"; content:"<script>"; nocase; sid:1000004; rev:1;)
+
+# Port Scanning Detection
+alert tcp any any -> $HOME_NET any (flags:S; msg:"TCP SYN Scan Detected"; threshold:type threshold, track by_src, count 20, seconds 10; sid:1000005; rev:1;)
+
+# DNS Rules
+alert udp $EXTERNAL_NET 53 -> $HOME_NET any (msg:"DNS Response Received"; sid:1000006; rev:1;)
+alert udp $HOME_NET any -> $EXTERNAL_NET 53 (msg:"DNS Query Sent"; sid:1000007; rev:1;)
+
+# ICMP Rules
+alert icmp any any -> $HOME_NET any (msg:"ICMP Ping Detected"; itype:8; sid:1000008; rev:1;)
+alert icmp any any -> any any (msg:"ICMP Ping Reply"; itype:0; sid:1000009; rev:1;)
+
+# Malware Communication Patterns
+alert tcp $HOME_NET any -> $EXTERNAL_NET any (msg:"Potential C&C Beacon - Periodic Connection"; content:"|00 00 00 00|"; sid:1000010; rev:1;)
+
+# FTP Brute Force
+alert tcp $EXTERNAL_NET any -> $HOME_NET 21 (msg:"FTP Failed Login"; content:"530 Login"; sid:1000011; rev:1;)
+
+# SSH Brute Force
+alert tcp $EXTERNAL_NET any -> $HOME_NET 22 (msg:"SSH Brute Force Attempt"; content:"SSH"; threshold:type threshold, track by_src, count 5, seconds 60; sid:1000012; rev:1;)
